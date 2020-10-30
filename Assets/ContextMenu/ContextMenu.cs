@@ -66,16 +66,16 @@ namespace Z.ContextMenu
             panelRect.pivot = pivot;
         }
 
-        public PrefabProviderTool GetMenu()
+        public PrefabProxy GetMenu(string label = null)
         {
-            var contextBlocker = new GameObject("blocker " + (menucount++));
+            var contextBlocker = new GameObject("ContextMenuBG " + (menucount++));
             contextBlocker.transform.SetParent(transform);
             contextBlocker.transform.localScale = Vector3.one;
             contextBlocker.AddComponent<Image>().color = blockerColor;
             Push(contextBlocker);
             contextBlocker.AddComponent<Button>().onClick.AddListener(Pop); //() => Destroy(contextBlocker)
             PrepareBlocker(contextBlocker);
-            var thispanel = provider.GetPanel(contextBlocker.transform, "ContextMenu");
+            var thispanel = provider.GetPanel(contextBlocker.transform, label);
             lastFilledMenu = thispanel.GetComponent<RectTransform>();
             thispanel.name = "ContextMenu";
             return provider.GetPrefabTool(this, thispanel.transform);
@@ -146,7 +146,7 @@ namespace Z.ContextMenu
         {
             List<IContextMenu> builders = GetContextRequiring(raycastList);
             if (!CheckIfImplementsContextMenu(builders)) return;
-            var thisMenu = GetMenu();
+            var thisMenu = GetMenu(builders[0].gameObject.name);
             foreach (var b in builders)
             {
                 //   thisMenu.GetLabel($"{b.name} ( {b.GetType().ToString()}) ");

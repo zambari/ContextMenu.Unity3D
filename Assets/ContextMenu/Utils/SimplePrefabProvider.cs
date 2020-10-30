@@ -8,8 +8,8 @@ namespace Z.ContextMenu
     {
 
         public Button buttonPrefab;
-        public Text headerPrefab;
-        public Text smallLabel;
+        public GameObject headerPrefab;
+        public GameObject smallLabel;
         public RectTransform panel;
         public Slider sliderPrefab;
         public Toggle togglePrefab;
@@ -29,9 +29,9 @@ namespace Z.ContextMenu
                 if (style != null)
                 {
                     if (style.Contains("header"))
-                        return headerPrefab as T;
+                        return headerPrefab.GetComponentInChildren<Text>() as T;
                 }
-                return smallLabel as T;
+                return smallLabel.GetComponentInChildren<Text>() as T;
             }
             if (typeParameterType.Equals(typeof(RectTransform)))
                 return panel as T;

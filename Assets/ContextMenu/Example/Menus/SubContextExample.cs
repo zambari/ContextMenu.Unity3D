@@ -6,7 +6,7 @@ using Z.ContextMenu;
 
 public class SubContextExample : MonoBehaviour, IContextMenu
 {
-    public void BuildContextMenu(PrefabProviderTool prefabs)
+    public void BuildContextMenu(PrefabProxy prefabs)
     {
         prefabs.GetLabel("Hello","Header");
         prefabs.GetButton("Hello");

@@ -7,27 +7,11 @@ namespace Z.ContextMenu
 {
 	public class NestedExample : MonoBehaviour, IContextMenu
 	{
-		public void BuildContextMenu(PrefabProviderTool prefabs)
+		public void BuildContextMenu(PrefabProxy prefabs)
 		{
-			prefabs.GetLabel("Rotation submenu");
+			prefabs.GetLabel("NestedExample:", "header");
 			// prefabs.GetNestedButton("Rotation", NestedMenu);
-			prefabs.GetNestedButton("Rotation", (nested) =>
-			{
-				nested.GetLabel("Rotation", "header");
-				var x = nested.GetSlider("X");
-				var y = nested.GetSlider("Y");
-				var z = nested.GetSlider("Z");
-				x.maxValue = 360;
-				y.maxValue = 360;
-				z.maxValue = 360;
-				x.value = transform.localEulerAngles.x;
-				y.value = transform.localEulerAngles.y;
-				z.value = transform.localEulerAngles.z;
-				x.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.x = v; transform.localEulerAngles = rot; });
-				z.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.z = v; transform.localEulerAngles = rot; });
-				y.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.y = v; transform.localEulerAngles = rot; });
-
-			});
+			
 
 			prefabs.GetNestedButton("SubMenu with right", (submenu) =>
 			{
@@ -37,22 +21,22 @@ namespace Z.ContextMenu
 			}).gameObject.AddComponent<NestedExample>();
 		}
 
-		void NestedMenu(PrefabProviderTool nested)
-		{
-			nested.GetLabel("Rotation", "header");
-			var x = nested.GetSlider("X");
-			var y = nested.GetSlider("Y");
-			var z = nested.GetSlider("Z");
-			x.maxValue = 360;
-			y.maxValue = 360;
-			z.maxValue = 360;
-			x.value = transform.localEulerAngles.x;
-			y.value = transform.localEulerAngles.y;
-			z.value = transform.localEulerAngles.z;
-			x.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.x = v; transform.localEulerAngles = rot; });
-			z.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.z = v; transform.localEulerAngles = rot; });
-			y.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.y = v; transform.localEulerAngles = rot; });
-		}
+		// void NestedMenu(PrefabProxy nested)
+		// {
+		// 	nested.GetLabel("Rotation", "header");
+		// 	var x = nested.GetSlider("X");
+		// 	var y = nested.GetSlider("Y");
+		// 	var z = nested.GetSlider("Z");
+		// 	x.maxValue = 360;
+		// 	y.maxValue = 360;
+		// 	z.maxValue = 360;
+		// 	x.value = transform.localEulerAngles.x;
+		// 	y.value = transform.localEulerAngles.y;
+		// 	z.value = transform.localEulerAngles.z;
+		// 	x.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.x = v; transform.localEulerAngles = rot; });
+		// 	z.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.z = v; transform.localEulerAngles = rot; });
+		// 	y.onValueChanged.AddListener((v) => { var rot = transform.localEulerAngles; rot.y = v; transform.localEulerAngles = rot; });
+		// }
 	}
 
 }

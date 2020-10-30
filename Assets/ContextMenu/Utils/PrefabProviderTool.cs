@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Z.ContextMenu;
 
-namespace Z.ContextMenu
+public class PrefabProxy
 {
-    public class PrefabProviderTool 
-    {
-        // Use this for initialization
-        public IProvidePrefabs provider;
-        public Transform target { get; set; }
-        public MonoBehaviour source;
-    }
+    // Use this for initialization
+    public IProvidePrefabs provider;
+    public Transform target { get; set; }
+    public MonoBehaviour source;
 }

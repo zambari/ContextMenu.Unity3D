@@ -8,7 +8,7 @@ using Z.ContextMenu;
     public interface IContextMenu
     {
         // void RequestMenu(out List<string> labels, out List<UnityAction> callbacks);
-        void BuildContextMenu(PrefabProviderTool prefabs);
+        void BuildContextMenu(PrefabProxy prefabs);
         GameObject gameObject { get; }
         string name { get; }
         Transform transform { get; }
