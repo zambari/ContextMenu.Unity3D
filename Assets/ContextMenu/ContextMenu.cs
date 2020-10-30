@@ -23,9 +23,10 @@ namespace Z.ContextMenu
 
         [Range(0.1f, 1)]
         public float inactiveAlpha = 0.6f;
+
+        
         public bool emulateRightWithLong = true;
         public float longPessTime = 1;
-
         public float longPressMaxDistance = 10;
         private float pressTime;
         private Vector3 pressPosition;

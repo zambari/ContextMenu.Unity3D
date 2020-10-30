@@ -12,8 +12,9 @@ An exmple implementation looks like this:
     public void BuildContextMenu(PrefabProxy prefabs)
         {
               prefabs.GetLabel("This is a sample");
-              prefabs.GetButton("Hello World").onClick.AddListener(()=>{ 
-                          Debug.Log ("Hello world callback");
+              prefabs.GetButton("Hello World").onClick.AddListener(()=>
+                          { 
+                             Debug.Log ("Hello world callback");
                           });
         }
 ```
@@ -27,11 +28,11 @@ You can have multiple script implementing IContextMenu attached to your gameobje
 There are two ways to create nested menus using ContextMenu. If you want a button click to open another menu, you can use GetNestedButton method, defined in the extensions. When such button is clicked, ContextMenu creates another panel on top of existing view, and calls your method with a fresh PrefabProxy  (for example:)
 
 ```
-	prefabs.GetNestedButton("SubMenu",(submenu)=>{
-        submenu.GetButton("ButtonA");
-        submenu.GetButton("ButtonB");
-        submenu.GetButton("ButtonC"); // add callbacks
-    });
+    	prefabs.GetNestedButton("SubMenu",(submenu)=>{
+            submenu.GetButton("ButtonA");
+            submenu.GetButton("ButtonB");
+            submenu.GetButton("ButtonC"); // add callbacks
+          });
 
 ```
 
