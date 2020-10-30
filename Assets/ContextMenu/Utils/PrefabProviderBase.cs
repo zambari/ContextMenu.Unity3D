@@ -16,11 +16,7 @@ namespace Z.ContextMenu
 			var newHelper = new PrefabProviderTool() { source = src, target = content, provider = this };
 			return newHelper;
 		}
-		public RectTransform GetPanel(Transform target, string label, string style = null)
-		{
-			return InstantiatePrefab<RectTransform>(target, label, style);
-
-		}
+	
 	}
 
 }

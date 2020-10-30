@@ -6,6 +6,11 @@ namespace Z.ContextMenu
 {
 	public static class PrefabExtensions
 	{
+		public static T InstantiatePrefab<T>(this PrefabProviderTool prefabs, Transform target, string label, string style = null) where T : Component
+		{
+			return prefabs.provider.InstantiatePrefab<T>(target, label, style);
+		}
+
 		public static Button GetButton(this PrefabProviderTool prefabs, string label, string style = null)
 		{
 			return prefabs.InstantiatePrefab<Button>(prefabs.target, label, style);
@@ -41,6 +46,20 @@ namespace Z.ContextMenu
 				context.MovePanel(newMenu.target.GetComponent<RectTransform>());
 			});
 			return button;
+		}
+
+		public static RectTransform GetPanel(this PrefabProviderBase prefabs, Transform target, string label, string style = null)
+		{
+			var instanced = prefabs.InstantiatePrefab<RectTransform>(target, label, style);
+			return instanced;
+		}
+
+		public static void SetLabel(this Component component, string label)
+		{
+			var text = component.GetComponentInChildren<Text>();
+			if (text != null) text.text = label;
+			component.name = label;
+
 		}
 	}
 }

@@ -41,11 +41,8 @@ namespace Z.ContextMenu
         public override T InstantiatePrefab<T>(Transform target, string label, string style = null)
         {
             var temlpate = GetTemplate<T>(style);
-            var go = GameObject.Instantiate(temlpate.gameObject);
-            go.name = label;
-            go.transform.SetParent(target);
-            var text = go.GetComponentInChildren<Text>();
-            if (text != null) text.text = label;
+            var go = GameObject.Instantiate(temlpate.gameObject,target);
+            go.transform.SetLabel(label);
             return go.GetComponent<T>();
         }
 

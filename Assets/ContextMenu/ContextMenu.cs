@@ -22,7 +22,7 @@ namespace Z.ContextMenu
         List<RaycastResult> raycastList;
 
         [Range(0.1f, 1)]
-        public float inactiveAlpha = 0.3f;
+        public float inactiveAlpha = 0.6f;
 
         void Reset()
         {
@@ -36,6 +36,8 @@ namespace Z.ContextMenu
             rect.offsetMin = Vector2.zero;
             name = "ContextMenu";
             transform.SetAsLastSibling();
+            var image = GetComponent<Image>();
+            if (image != null) image.enabled = false;
         }
         void PrepareBlocker(GameObject blocker)
         {
@@ -44,16 +46,16 @@ namespace Z.ContextMenu
             rect.offsetMax = Vector2.zero;
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
-            rect.pivot = new Vector2(0, 1);
+
             rect.anchoredPosition = Vector2.zero;
 
         }
         public void MovePanel(RectTransform panelRect)
-        {
-            var pivot = panelRect.pivot;
+        { //  rect.pivot = 
+            var pivot = new Vector2(0, 1); // panelRect.pivot;
             var blockerRect = panelRect.transform.parent.GetComponent<RectTransform>().rect;
-            float normalizedX = Input.mousePosition.x / (Screen.width); //' + rect.rect.width);
-            float normalizedY = Input.mousePosition.y / (Screen.height); // + rect.rect.height);
+            float normalizedX = Input.mousePosition.x / (blockerRect.width); //' + rect.rect.width);
+            float normalizedY = Input.mousePosition.y / (blockerRect.height); // + rect.rect.height);
             panelRect.position = new Vector3(normalizedX * blockerRect.width, normalizedY * blockerRect.height);
             pivot.y = normalizedY;
             float normalizedX2 = Input.mousePosition.x / (Screen.width - panelRect.rect.width);
@@ -68,6 +70,7 @@ namespace Z.ContextMenu
         {
             var contextBlocker = new GameObject("blocker " + (menucount++));
             contextBlocker.transform.SetParent(transform);
+            contextBlocker.transform.localScale = Vector3.one;
             contextBlocker.AddComponent<Image>().color = blockerColor;
             Push(contextBlocker);
             contextBlocker.AddComponent<Button>().onClick.AddListener(Pop); //() => Destroy(contextBlocker)
@@ -144,7 +147,6 @@ namespace Z.ContextMenu
             List<IContextMenu> builders = GetContextRequiring(raycastList);
             if (!CheckIfImplementsContextMenu(builders)) return;
             var thisMenu = GetMenu();
-            //   thisMenu.GetButton("[X] Close").AddCallback(Pop);
             foreach (var b in builders)
             {
                 //   thisMenu.GetLabel($"{b.name} ( {b.GetType().ToString()}) ");
