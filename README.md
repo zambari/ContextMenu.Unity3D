@@ -1,6 +1,6 @@
 # ContextMenu for Unity3D
 
-ContextMenu was designed as a universal solution providing easy way to script UI popup menu creation, in a trivial and robust manner. You define the type of control and methods to call (which are added in a typical Unity3D manner) while context menu handles creation, destruction and placement of your controls (which are uniform across the project - while code can be migrated across projects)
+ContextMenu was designed as a universal solution providing easy way to script UI popup menu creation, in a trivial and robust manner. Using it you only define the business logic of your context menu, without worrying aobut the presentation / UI Layer - you only declare the type of control to instantiate (with optional style hind) and attach event listener methods in a typical Unity3D manner. ContextMenu handles the rest (user input, UI item instantiation, and destruction). This lets you add functional business logic with to your 3D and 2D objects with only tiny, portable, dependency free snippets.
 
 ## IContextMenu
 
@@ -11,8 +11,10 @@ An exmple implementation looks like this:
 ```
     public void BuildContextMenu(PrefabProxy prefabs)
         {
-          var button = prefabs.GetButton("Hello World");
-          button.onClick.AddListener(()=>{ Debug.Log ("Hello world callback");});
+              prefabs.GetLabel("This is a sample");
+              prefabs.GetButton("Hello World").onClick.AddListener(()=>{ 
+                          Debug.Log ("Hello world callback");
+                          });
         }
 ```
 
@@ -26,9 +28,9 @@ There are two ways to create nested menus using ContextMenu. If you want a butto
 
 ```
 	prefabs.GetNestedButton("SubMenu",(submenu)=>{
-					submenu.GetButton("ButtonA");
-                    submenu.GetButton("ButtonB");
-                    submenu.GetButton("ButtonC");
+        submenu.GetButton("ButtonA");
+        submenu.GetButton("ButtonB");
+        submenu.GetButton("ButtonC"); // add callbacks
     });
 
 ```
@@ -36,6 +38,7 @@ There are two ways to create nested menus using ContextMenu. If you want a butto
 Alternatively, if you want to handle right click within a menu, there's also an easy way for that. To do so, add a script implementing IContextMenu, to your item, after requesting them from PrefabProxy. Normally right click will close current submenu level, but if topmost object under cursor also implements IContextMenu, this behaviour is overridden and new context menu is created
 
 More examples are in the NestedExample.cs class and ContextMenuTransform.cs
+NestedExample adds a button using both those ways - providing one menu on normal click, and another (self reference) on right click.
 
 ## Prefab Provider
 
@@ -57,7 +60,7 @@ If you want 3D objects to have context menus - remember to place PhysicsRaycaste
 
 Code should be compatible across the board of unity versions. Example scene has been prepared using Unity 2017.4 for thos of you who still use it
 
-Currently only right mouse clicks are supported, so there isn't really a way to use it on mobile (sorry) but its a feature that is likely to be added
+For mobile devices (which inherently dont have right click events) context menu can be opened by pressing and holding on an object for a given time. This may get in the way of some other actions on your scene so is by default disabled;
 
 ## PrefabProxy
 

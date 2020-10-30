@@ -23,6 +23,13 @@ namespace Z.ContextMenu
 
         [Range(0.1f, 1)]
         public float inactiveAlpha = 0.6f;
+        public bool emulateRightWithLong = true;
+        public float longPessTime = 1;
+
+        public float longPressMaxDistance = 10;
+        private float pressTime;
+        private Vector3 pressPosition;
+        private bool isPressed;
 
         void Reset()
         {
@@ -166,15 +173,54 @@ namespace Z.ContextMenu
             }
             return false;
         }
+
+        void HandleAction()
+        {
+            raycastList = RaycastMouse();
+            if (menus.Count > 0 && !CheckIfObjectIsContexAndWantsContext())
+                Pop();
+            else
+                OnMouseReleased();
+        }
+        void HandleRightClickEmulationWithLongPress()
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                isPressed = false;
+            }
+            if (isPressed)
+            {
+                float distance = (Input.mousePosition - pressPosition).magnitude;
+                if (distance > longPressMaxDistance)
+                {
+                    isPressed = false;
+                    return;
+                }
+                if (Time.time - pressTime > longPessTime)
+                {
+                    isPressed = false;
+                    HandleAction();
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+
+                pressTime = Time.time;
+                pressPosition = Input.mousePosition;
+                isPressed = true;
+            }
+        }
         void Update()
         {
+            if (emulateRightWithLong)
+            {
+                HandleRightClickEmulationWithLongPress();
+
+            }
             if (Input.GetMouseButtonDown(1))
             {
-                raycastList = RaycastMouse();
-                if (menus.Count > 0 && !CheckIfObjectIsContexAndWantsContext())
-                    Pop();
-                else
-                    OnMouseReleased();
+                HandleAction();
             }
         }
 
